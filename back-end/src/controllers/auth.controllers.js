@@ -1,3 +1,4 @@
+import cloudinary from "../lib/cloudinary.js";
 import { generateToken } from "../lib/utils.js";
 import User from "../models/user.model.js";
 import bcrypt from "bcryptjs"
@@ -77,7 +78,7 @@ try {
         profilePic: user.profilePic})
 
 } catch (err) {
-    console.log(`Error in signup controller ${err.message}`)
+    console.log(`Error in login controller ${err.message}`)
     res.status(500).json({message: "Internal Server error"})            
 }
 }
@@ -88,7 +89,39 @@ export const logout = (req, res) => {
         res.cookie("jwt", "", {maxAge: 0})
         res.status(200).json({message:"Logged out successfully"}) 
     } catch (err) {
-        console.log(`Error in signup controller ${err.message}`)
+        console.log(`Error in logout controller ${err.message}`)
         res.status(500).json({message: "Internal Server error"})     
+    }
+}
+
+export const updateProfile = async(req, res) => {
+    try {
+        const profilePic = req.body;
+        const userid = req.user.id;
+
+        if(!profilePic){
+        res.status(400).json({message:"Profile pic is required"})
+        }
+
+        //upload profile pic to cloudinary
+        const uploadResponse =  await cloudinary.uploader.upload(profilePic)
+        const updatedUser = await User.findByIdAndUpdate(userid, {profilePic: uploadResponse.secure_url}, {new: true}); //new:true returns updated data
+
+        res.status(200).json(updatedUser);
+    } catch (err) {
+        console.log(`Error in updateProfile controller ${err.message}`)
+        res.status(500).json({message: "Internal Server error"})      
+    }
+
+}
+
+//this function is used for returning authenticated user
+//It will come to use when we are refreshing the page
+export const checkAuth = async (req, res) => {
+    try {
+        res.status(200).json(req.user)
+    } catch (err) {
+        console.log(`Error in checkAuth controller ${err.message}`)
+        res.status(500).json({message: "Internal Server error"})   
     }
 }

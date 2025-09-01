@@ -1,5 +1,6 @@
 import express from "express";
-import { login, logout, signup } from "../controllers/auth.controllers.js";
+import { checkAuth, login, logout, signup, updateProfile } from "../controllers/auth.controllers.js";
+import { protectRoute } from "../middleware/auth.middleware.js";
 
 /**
  * In Node.js with Express, express.Router() is used to create modular, mountable route handlers.
@@ -14,9 +15,17 @@ import { login, logout, signup } from "../controllers/auth.controllers.js";
 const router = express.Router()
 
 router.post("/signup", signup)
-
 router.post("/login",login)
-
 router.post("/logout", logout)
+
+//it should be authenticated 
+/**
+ * 1. Authentication is happening at protectRoute(middleware) and
+ * 2. only if it is authenticated we are moving to next functionality updateProfile
+ * 3. using next() method
+ */
+router.put("/update-profile", protectRoute, updateProfile) 
+
+router.get("/check", protectRoute, checkAuth)
 
 export default router;

@@ -58,3 +58,17 @@ BE7:
     4. Create token to let them know that they are authenticated - generateToken function in - [token](lib/utils.js)
         a. we need import jwt from "jsonwebtoken"
         b. send the token as response and store it in cookie for 7 days - using res.cookie
+
+<!-- ------ create login and logout logic -------- -->
+BE8: 
+    1. email and password is sent as data from client. 
+    2. check the details and validate it
+    3. If valid generateToken and send the user details
+    4. for logout clear the cookie and send the response
+
+BE9: Update profile code
+    1. Before updating the profile, check for the authentication using protectRoute logic as middleware and then
+    2. Write the code for update profile. 
+    3. also add a checkAuth route whenever user refreshes the page, show the profile or login page
+    
+
