@@ -1,5 +1,6 @@
 import express from "express"
 import authRoutes from "./routes/auth.route.js"
+import messageRoutes from "./routes/message.route.js"
 import dotenv from "dotenv"
 import cookieParser from "cookie-parser"
 
@@ -16,7 +17,8 @@ app.use(cookieParser()) //for parsing cookie
 dotenv.config({ path: "/Users/appiness/Desktop/MERN/CHAT-APP/back-end/src/.env" });
 
 // app.use(authRoutes) // http://localhost:5001/logout - this triggers the route directly
-app.use("/api/auth/",authRoutes) //http://localhost:5001/api/auth/logout - we need to use the route like this
+app.use("/api/auth",authRoutes) //http://localhost:5001/api/auth/logout - we need to use the route like this
+app.use("/api/message",messageRoutes)
 
 const PORT = process.env.PORT  || 5001
 console.log("port = " + process.env.PORT)
