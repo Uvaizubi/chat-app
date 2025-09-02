@@ -70,5 +70,21 @@ BE9: Update profile code
     1. Before updating the profile, check for the authentication using protectRoute logic as middleware and then
     2. Write the code for update profile. 
     3. also add a checkAuth route whenever user refreshes the page, show the profile or login page
-    
 
+BE10: write routes and logic for handling message
+    1. route for messages - back-end/src/routes/message.route.js
+        - This contains routes for getting all the users for the sidebar in UI
+        - Get all the messages related to a chat (between sender and receiver)
+        - Send message from one user to other user and update it in mongoDB
+    2. logic related to each route is present in - back-end/src/controllers/auth.controllers.js
+    3. you can find the message model in - back-end/src/models/message.model.js
+
+
+----- Front End logics ----
+
+FE1: cd front-end
+    1. npm i react-router-dom react-hot-toast
+        react-router-dom - for routing in react
+        react-hot-toast - for toasting the notifications
+
+    

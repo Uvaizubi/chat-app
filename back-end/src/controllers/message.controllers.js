@@ -1,16 +1,16 @@
-import cloudinary from "../lib/cloudinary";
-import Message from "../models/message.model";
-import User from "../models/user.model";
+import cloudinary from "../lib/cloudinary.js";
+import Message from "../models/message.model.js";
+import User from "../models/user.model.js";
 
 export const getUsersForSideBar = async (req, res) => {
     try {
         const loggedInUserId = req.user._id;
-        const filteredUsers = User.find({_id: {$ne :loggedInUserId } }).select("-password");
+        const filteredUsers = await User.find({_id: {$ne :loggedInUserId } }).select("-password");
         
-        res.status(200).json(filteredUsers)
+        return res.status(200).json(filteredUsers)
     } catch (err) {
         console.log(`Error in getUsersForSideBar controller ${err.message}`)
-        res.status(500).json({message: "Internal Server error"})  
+        return res.status(500).json({message: "Internal Server error"})  
     }
 }
 
@@ -28,10 +28,10 @@ try {
             ]
         })
     
-        res.status(200).json(messages)
+        return res.status(200).json(messages)
 } catch (err) {
     console.log(`Error in getMessages controller ${err.message}`)
-    res.status(500).json({message: "Internal Server error"})
+    return res.status(500).json({message: "Internal Server error"})
 }
 }
 
@@ -58,10 +58,10 @@ export const sendMessage = async (req, res) => {
 
         //todo: realtime chat functionality goes here => socket.io
 
-        res.status(201).json(newMessage)
+        return res.status(201).json(newMessage)
     } catch (err) {
         console.log(`Error in sendMessage controller ${err.message}`)
-        res.status(500).json({message: "Internal Server error"})
+        return res.status(500).json({message: "Internal Server error"})
     }
 }
 
